@@ -14,12 +14,15 @@ var cors = require("cors");
 app.use(cors());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: true,
-  })
+  .connect(
+    `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.p32px.mongodb.net/blog?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: true,
+    }
+  )
   .then(() => {
     console.log("connected");
   })
@@ -57,6 +60,6 @@ app.use("/api/users", usersRoute);
 app.use("/api/posts", postsRoute);
 app.use("/api/categories", categoriesRoute);
 
-app.listen(process.env.PORT, () => {
+app.listen("5000", () => {
   console.log("server is running at port 5000");
 });
